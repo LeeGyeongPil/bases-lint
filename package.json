@@ -1,6 +1,6 @@
 {
   "name": "bases-lint",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Static checker for Obsidian Bases (.base files and base code blocks): expression syntax, types, vault-aware warnings, silent-failure rules.",
   "license": "MIT",
   "author": "LeeGyeongPil",
