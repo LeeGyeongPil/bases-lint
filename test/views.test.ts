@@ -157,3 +157,44 @@ describe("AC-6 structure and silent-failure rules", () => {
     expect(lintBase(src, { disable: ["top-level-key"] })).toEqual([]);
   });
 });
+
+describe("property names in view settings", () => {
+  const base = [
+    "formulas:",
+    "  a: 'status'",
+    "views:",
+    "  - type: table",
+    "    order: [file.nmae, formula.missing, statsu]",
+    "    sort:",
+    "      - property: file.nmae",
+    "    groupBy:",
+    "      property: formula.nope",
+    "    summaries:",
+    "      formula.zzz: Average",
+    "",
+  ].join("\n");
+  const vault = {
+    notes: 1,
+    properties: { status: { types: ["string"], examples: {}, emptyItemNotes: [] } },
+  } as never;
+
+  it("reports unknown names in order, sort, groupBy and summaries", () => {
+    const found = lintBase(base, { vault });
+    expect(found.filter((d) => d.severity === "error")).toHaveLength(5);
+    expect(found.filter((d) => d.severity === "warning").map((d) => d.rule)).toEqual(["unknown-property"]);
+    expect(found.some((d) => d.hint?.includes("file.name"))).toBe(true);
+  });
+
+  it("skips vault properties without a vault", () => {
+    expect(lintBase(base).filter((d) => d.severity === "warning")).toHaveLength(0);
+  });
+
+  it("accepts correct names", () => {
+    const ok = base
+      .replace("file.nmae, formula.missing, statsu", "file.name, formula.a, status")
+      .replace("property: file.nmae", "property: file.name")
+      .replace("formula.nope", "formula.a")
+      .replace("formula.zzz", "formula.a");
+    expect(lintBase(ok, { vault })).toEqual([]);
+  });
+});

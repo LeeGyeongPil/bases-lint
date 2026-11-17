@@ -637,3 +637,46 @@ function checkUnaryMinus(start: number, end: number, operand: Inferred, env: Env
   });
   void end;
 }
+
+/**
+ * Check a property name written outside an expression (view order, sort, groupBy,
+ * summaries keys). `start`/`end` are offsets of the name; only unknown-property and
+ * formula-undefined are reported here.
+ */
+export function checkPropertyName(name: string, start: number, end: number, shared: Shared, report: (f: Finding) => void): void {
+  const env: Env = {
+    shared: { ...shared, trace: undefined },
+    seen: new Set(),
+    report: (f) => {
+      if (f.rule === "unknown-property" || f.rule === "formula-undefined") report(f);
+    },
+  };
+  const dot = name.indexOf(".");
+  const prefix = dot < 0 ? "" : name.slice(0, dot);
+  const rest = dot < 0 ? name : name.slice(dot + 1);
+  if (name === "this" || prefix === "this") return;
+  if (prefix === "file") {
+    if (!FILE_FIELDS.has(rest)) {
+      const all = [...FILE_FIELDS.keys()];
+      const near = suggest(rest, all);
+      report({
+        rule: "unknown-property",
+        severity: "error",
+        start: start + dot + 1,
+        end: start + dot + 1 + rest.length,
+        msg: "unknown-property.file",
+        params: { name: rest },
+        ...(near
+          ? { hint: "hint.suggest" as const, hintParams: { suggestion: `file.${near}` } }
+          : { hint: "unknown-property.hint-file" as const, hintParams: { list: all.join(", ") } }),
+      });
+    }
+    return;
+  }
+  if (prefix === "formula") {
+    formulaRef(rest, start, end, env);
+    return;
+  }
+  if (name === "file" || name === "formula" || name === "note") return;
+  propertyRef(prefix === "note" ? rest : name, start, end, env);
+}

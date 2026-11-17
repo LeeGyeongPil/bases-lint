@@ -1,7 +1,7 @@
 import { LineCounter, parseDocument } from "yaml";
 import { parseExpression } from "./expr/parser.js";
 import type { Expr } from "./expr/ast.js";
-import { checkExpression, type FormulaDef, type Inferred, type Shared } from "./expr/typecheck.js";
+import { checkExpression, checkPropertyName, type FormulaDef, type Inferred, type Shared } from "./expr/typecheck.js";
 import { findCycles } from "./formulas.js";
 import { t, type MsgKey } from "./i18n/index.js";
 import { RULES, type Finding } from "./rules.js";
@@ -49,9 +49,14 @@ export function lintSource(src: string, options: LintOptions = {}): Diagnostic[]
 
   // Parse every expression and keep its offset map.
   const parsed: ParsedSite[] = [];
+  const propertySites: { site: ExprSite; text: ScalarText }[] = [];
   for (const site of schema.sites) {
     const text = scalarText(src, site.node);
     if (!text) continue;
+    if (site.kind === "property") {
+      propertySites.push({ site, text });
+      continue;
+    }
     const result = parseExpression(text.text);
     const err = result.errors[0];
     if (err) {
@@ -108,6 +113,14 @@ export function lintSource(src: string, options: LintOptions = {}): Diagnostic[]
           findings.push({ ...f, start: p.text.map(f.start), end: p.text.map(Math.max(f.end, f.start + 1)) }),
       },
       scope,
+    );
+  }
+
+  // Property names in view settings are plain names, not expressions.
+  for (const { site, text } of propertySites) {
+    const name = String(site.node.value);
+    checkPropertyName(name, 0, name.length, shared, (f) =>
+      findings.push({ ...f, start: text.map(f.start), end: text.map(Math.max(f.end, f.start + 1)) }),
     );
   }
 

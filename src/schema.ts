@@ -5,7 +5,7 @@ import { suggest } from "./suggest.js";
 /** One expression written as a YAML string. */
 export interface ExprSite {
   node: Scalar;
-  kind: "filter" | "formula" | "summary";
+  kind: "filter" | "formula" | "summary" | "property";
   /** Formula or summary name. */
   name?: string;
 }
@@ -211,7 +211,12 @@ export function checkSchema(doc: Document.Parsed): SchemaResult {
     let orderIsList = false;
     if (isSeq(order)) {
       orderIsList = true;
-      for (const it of order.items) if (isScalar(it) && typeof it.value === "string") orderNames.push(it.value);
+      for (const it of order.items) {
+        if (isScalar(it) && typeof it.value === "string") {
+          orderNames.push(it.value);
+          addSite(it, "property");
+        }
+      }
     } else if (order !== undefined && order !== null && !(isScalar(order) && order.value === null)) {
       const [s, e] = range(order as Node);
       findings.push({ rule: "view-shape", start: s, end: e, msg: "view-shape.order", hint: "view-shape.hint.order" });
@@ -225,6 +230,8 @@ export function checkSchema(doc: Document.Parsed): SchemaResult {
       } else {
         const dir = groupBy.items.find((p) => keyName(p) === "direction");
         if (dir) checkDirection(dir.value);
+        const gp = groupBy.items.find((p) => keyName(p) === "property");
+        if (gp) addSite(gp.value as Node, "property");
       }
     }
 
@@ -259,6 +266,7 @@ export function checkSchema(doc: Document.Parsed): SchemaResult {
           });
         }
         if (dir) checkDirection(dir.value);
+        if (prop && isScalar(prop.value) && typeof prop.value.value === "string") addSite(prop.value, "property");
       }
     } else if (sort !== undefined && sort !== null) {
       const [s, e] = range(sort as Node);
@@ -268,6 +276,7 @@ export function checkSchema(doc: Document.Parsed): SchemaResult {
     const summaries = get("summaries")?.value;
     if (isMap(summaries)) {
       for (const p of summaries.items) {
+        if (isScalar(p.key) && typeof p.key.value === "string") addSite(p.key, "property");
         if (!isScalar(p.value) || typeof p.value.value !== "string") continue;
         const name = p.value.value;
         if (BUILTIN_SUMMARIES.includes(name) || topSummaries.has(name)) continue;
