@@ -94,7 +94,7 @@ Types come from literals, function results, formula results and (with a vault) f
 
 ## formula-undefined
 
-`formula.x` where `formulas` has no `x`. A close name gets a suggestion.
+`formula.x` where `formulas` has no `x`, in expressions and in view settings (`order`, `sort`, `groupBy`, `summaries`). A close name gets a suggestion.
 
 ## formula-cycle
 
@@ -102,7 +102,7 @@ Formulas that refer to each other, directly or through others. The loop is repor
 
 ## unknown-property
 
-- A property name that no note in the vault has (needs a vault; `tags`, `aliases` and `cssclasses` always count as known). Warning, with a suggestion for close names.
+- A property name that no note in the vault has, in expressions and in view settings (`order`, `sort`, `groupBy`, `summaries`) (needs a vault; `tags`, `aliases` and `cssclasses` always count as known). Warning, with a suggestion for close names.
 - A `file.<name>` that is not a file field (`backlinks basename ctime embeds ext file folder links mtime name path properties size tags`). Error, with a suggestion.
 
 ## mixed-type
