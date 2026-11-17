@@ -1,0 +1,142 @@
+{
+  "meta": {
+    "docsVersion": "Obsidian 1.15.x help, 2026-11-17",
+    "checked": "2026-11-17",
+    "sources": [
+      "https://obsidian.md/help/bases/functions",
+      "https://obsidian.md/help/bases/syntax",
+      "https://obsidian.md/changelog/2025-11-11-desktop-v1.10.3/"
+    ],
+    "note": "Written by hand from the public help pages. No official grammar exists. Entries marked source=changelog appear in a release note but not on the current functions page."
+  },
+  "globals": {
+    "escapeHTML": { "sig": "escapeHTML(html)", "returns": "string" },
+    "date": { "sig": "date(input)", "returns": "date" },
+    "duration": { "sig": "duration(value)", "returns": "duration" },
+    "file": { "sig": "file(path)", "returns": "file" },
+    "html": { "sig": "html(html)", "returns": "any" },
+    "if": { "sig": "if(condition, trueResult, falseResult?)", "returns": "any" },
+    "image": { "sig": "image(path)", "returns": "any" },
+    "icon": { "sig": "icon(name)", "returns": "any" },
+    "link": { "sig": "link(path, display?)", "returns": "link" },
+    "list": { "sig": "list(element)", "returns": "list" },
+    "max": { "sig": "max(...values)", "returns": "number" },
+    "min": { "sig": "min(...values)", "returns": "number" },
+    "now": { "sig": "now()", "returns": "date" },
+    "number": { "sig": "number(input)", "returns": "number" },
+    "today": { "sig": "today()", "returns": "date" },
+    "random": { "sig": "random()", "returns": "number" }
+  },
+  "methods": {
+    "any": {
+      "isTruthy": { "sig": "isTruthy()", "returns": "boolean" },
+      "isType": { "sig": "isType(type)", "returns": "boolean" },
+      "toString": { "sig": "toString()", "returns": "string" }
+    },
+    "date": {
+      "date": { "sig": "date()", "returns": "date" },
+      "format": { "sig": "format(format)", "returns": "string" },
+      "time": { "sig": "time()", "returns": "string" },
+      "relative": { "sig": "relative()", "returns": "string" },
+      "isEmpty": { "sig": "isEmpty()", "returns": "boolean" }
+    },
+    "duration": {},
+    "string": {
+      "contains": { "sig": "contains(value)", "returns": "boolean" },
+      "containsAll": { "sig": "containsAll(...values)", "returns": "boolean" },
+      "containsAny": { "sig": "containsAny(...values)", "returns": "boolean" },
+      "endsWith": { "sig": "endsWith(query)", "returns": "boolean" },
+      "isEmpty": { "sig": "isEmpty()", "returns": "boolean" },
+      "lower": { "sig": "lower()", "returns": "string" },
+      "replace": { "sig": "replace(pattern, replacement)", "returns": "string" },
+      "repeat": { "sig": "repeat(count)", "returns": "string" },
+      "reverse": { "sig": "reverse()", "returns": "string" },
+      "slice": { "sig": "slice(start, end?)", "returns": "string" },
+      "split": { "sig": "split(separator, limit?)", "returns": "list" },
+      "startsWith": { "sig": "startsWith(query)", "returns": "boolean" },
+      "title": { "sig": "title()", "returns": "string" },
+      "trim": { "sig": "trim()", "returns": "string" }
+    },
+    "number": {
+      "abs": { "sig": "abs()", "returns": "number" },
+      "ceil": { "sig": "ceil()", "returns": "number" },
+      "floor": { "sig": "floor()", "returns": "number" },
+      "isEmpty": { "sig": "isEmpty()", "returns": "boolean" },
+      "round": { "sig": "round(digits?)", "returns": "number" },
+      "toFixed": { "sig": "toFixed(precision)", "returns": "string" }
+    },
+    "list": {
+      "contains": { "sig": "contains(value)", "returns": "boolean" },
+      "containsAll": { "sig": "containsAll(...values)", "returns": "boolean" },
+      "containsAny": { "sig": "containsAny(...values)", "returns": "boolean" },
+      "filter": { "sig": "filter(expression)", "returns": "list" },
+      "flat": { "sig": "flat()", "returns": "list" },
+      "isEmpty": { "sig": "isEmpty()", "returns": "boolean" },
+      "join": { "sig": "join(separator)", "returns": "string" },
+      "map": { "sig": "map(expression)", "returns": "list" },
+      "reduce": { "sig": "reduce(expression, initial)", "returns": "any" },
+      "reverse": { "sig": "reverse()", "returns": "list" },
+      "slice": { "sig": "slice(start, end?)", "returns": "list" },
+      "sort": { "sig": "sort()", "returns": "list" },
+      "unique": { "sig": "unique()", "returns": "list" },
+      "mean": { "sig": "mean()", "returns": "number", "source": "changelog" },
+      "median": { "sig": "median()", "returns": "number", "source": "changelog" },
+      "stddev": { "sig": "stddev()", "returns": "number", "source": "changelog" }
+    },
+    "file": {
+      "asLink": { "sig": "asLink(display?)", "returns": "link" },
+      "hasLink": { "sig": "hasLink(file)", "returns": "boolean" },
+      "hasProperty": { "sig": "hasProperty(name)", "returns": "boolean" },
+      "hasTag": { "sig": "hasTag(...tags)", "returns": "boolean" },
+      "inFolder": { "sig": "inFolder(folder)", "returns": "boolean" }
+    },
+    "link": {
+      "asFile": { "sig": "asFile()", "returns": "file" },
+      "linksTo": { "sig": "linksTo(file)", "returns": "boolean" }
+    },
+    "object": {
+      "isEmpty": { "sig": "isEmpty()", "returns": "boolean" },
+      "keys": { "sig": "keys()", "returns": "list" },
+      "values": { "sig": "values()", "returns": "list" }
+    },
+    "regexp": {
+      "matches": { "sig": "matches(value)", "returns": "boolean" }
+    }
+  },
+  "fields": {
+    "string": { "length": "number" },
+    "list": { "length": "number" },
+    "date": {
+      "year": "number",
+      "month": "number",
+      "day": "number",
+      "hour": "number",
+      "minute": "number",
+      "second": "number",
+      "millisecond": "number"
+    },
+    "duration": {
+      "days": "number",
+      "hours": "number",
+      "minutes": "number",
+      "seconds": "number",
+      "milliseconds": "number"
+    }
+  },
+  "fileFields": {
+    "backlinks": "list",
+    "basename": "string",
+    "ctime": "date",
+    "embeds": "list",
+    "ext": "string",
+    "file": "file",
+    "folder": "string",
+    "links": "list",
+    "mtime": "date",
+    "name": "string",
+    "path": "string",
+    "properties": "object",
+    "size": "number",
+    "tags": "list"
+  }
+}
