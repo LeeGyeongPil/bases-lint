@@ -1,0 +1,5 @@
+# expect: 5:7 expr-parse
+formulas:
+  a: |
+    name == "x" +
+      * 1

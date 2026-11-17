@@ -1,0 +1,3 @@
+# expect: 3:25 expr-parse
+filters:
+  and: ['a == 1', 'b == * 2']

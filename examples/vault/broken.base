@@ -1,0 +1,22 @@
+filters:
+  and:
+    - file.inFolder("tasks"
+    - 'status.lower() == "open"'
+    - 'tags.containz("work")'
+formulas:
+  late: "due < today() +"
+  per_hour: "estimate * 2"
+  loop: "formula.loop + 1"
+  title: "file.nmae"
+  soon: 'tody() + "1 day"'
+views:
+  - type: table
+    name: Broken
+    order: [file.name, status]
+    sort: "- priority DESC"
+  - type: table
+    name: By due date
+    order: [file.name]
+    sort:
+      - property: due
+        direction: DESC

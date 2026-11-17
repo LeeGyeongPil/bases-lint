@@ -1,0 +1,3 @@
+# expect: 3:10 expr-parse
+formulas:
+  a: 1 + * 2

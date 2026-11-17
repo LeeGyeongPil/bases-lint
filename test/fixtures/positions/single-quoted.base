@@ -1,0 +1,3 @@
+# expect: 3:23 expr-parse
+formulas:
+  a: 'name == ''x'' + * 1'

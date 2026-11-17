@@ -1,0 +1,9 @@
+{
+  "types": {
+    "status": "text",
+    "priority": "number",
+    "due": "date",
+    "tags": "tags",
+    "rating": "number"
+  }
+}

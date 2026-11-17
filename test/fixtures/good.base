@@ -1,0 +1,13 @@
+filters:
+  and:
+    - file.inFolder("notes")
+    - 'status != "done"'
+formulas:
+  pri2: "priority * 2"
+views:
+  - type: table
+    name: Open
+    order: [file.name, status, formula.pri2]
+    sort:
+      - property: priority
+        direction: DESC

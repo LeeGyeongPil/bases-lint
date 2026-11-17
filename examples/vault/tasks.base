@@ -1,0 +1,23 @@
+filters:
+  and:
+    - file.inFolder("tasks")
+    - 'status != "done"'
+formulas:
+  days_left: 'if(due, (date(due) - today()).days, "")'
+  urgent: 'priority <= 1 || file.name.contains("bank")'
+properties:
+  formula.days_left:
+    displayName: Days left
+views:
+  - type: table
+    name: Open tasks
+    limit: 20
+    order:
+      - file.name
+      - status
+      - priority
+      - due
+      - formula.days_left
+    sort:
+      - property: priority
+        direction: ASC

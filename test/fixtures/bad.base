@@ -1,0 +1,13 @@
+filters:
+  and:
+    - file.inFolder("notes"
+    - 'status.lower() == "open"'
+    - 'tags.containz("project")'
+formulas:
+  pri2: "priority * * 2"
+  loop: "formula.loop + 1"
+views:
+  - type: table
+    name: Bad
+    order: [file.name]
+    sort: "- priority DESC"
