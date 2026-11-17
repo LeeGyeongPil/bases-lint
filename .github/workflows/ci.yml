@@ -1,0 +1,29 @@
+# Build, test and smoke-run the CLI on the supported Node.js versions.
+# No keys, network services or Obsidian app are needed: the checker is fully offline.
+name: ci
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "17 3 * * 1" # every Monday: catch dependency or runtime drift
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["22", "24"]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+      - name: Smoke run on the example vault (exit code 1 is expected)
+        run: |
+          node dist/cli.js examples/vault || test $? -eq 1
+          node dist/cli.js examples/vault/tasks.base

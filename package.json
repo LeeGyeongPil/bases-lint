@@ -1,0 +1,33 @@
+{
+  "name": "bases-lint",
+  "version": "0.1.0",
+  "description": "Static checker for Obsidian Bases (.base files and base code blocks): expression syntax, types, vault-aware warnings, silent-failure rules.",
+  "license": "MIT",
+  "author": "LeeGyeongPil",
+  "repository": { "type": "git", "url": "git+https://github.com/LeeGyeongPil/bases-lint.git" },
+  "homepage": "https://github.com/LeeGyeongPil/bases-lint#readme",
+  "bugs": { "url": "https://github.com/LeeGyeongPil/bases-lint/issues" },
+  "keywords": ["obsidian", "obsidian-bases", "lint", "base", "yaml", "cli", "static-analysis"],
+  "type": "module",
+  "bin": { "bases-lint": "dist/cli.js" },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
+    "./package.json": "./package.json"
+  },
+  "files": ["dist", "README.md", "README.ko.md", "LICENSE", "CHANGELOG.md"],
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "prestart": "npm run build",
+    "start": "node dist/cli.js examples/vault --exit-zero"
+  },
+  "dependencies": { "yaml": "2.9.1" },
+  "devDependencies": {
+    "@types/node": "26.6.6",
+    "typescript": "7.0.2",
+    "vitest": "5.1.0"
+  }
+}
